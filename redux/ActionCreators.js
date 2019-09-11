@@ -17,7 +17,7 @@ export const fetchComments = () => (dispatch) => {
           var errMess = new Error(error.message);
           throw errMess;
       })
-      .then(response => response.json())
+      .then(response =>response.json())
       .then(comments => dispatch(addComments(comments)))
       .catch(error => dispatch(commentsFailed(error.message)))
 }

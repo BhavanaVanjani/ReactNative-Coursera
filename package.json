@@ -16,8 +16,9 @@
     "react-native-web": "^0.11.4",
     "react-navigation": "^2.0.1",
     "react-redux": "^5.0.7",
+    "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0"
