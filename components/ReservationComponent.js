@@ -105,9 +105,9 @@ class Reservation extends Component {
                     >
                     <View  style={styles.modal}>
                         <Text style={styles.modalTitle}> Your Reservation </Text>
-                        <Text style={styles.modalText}> Number of Guests: {this.state.guests} </Text>
-                        <Text style={styles.modalText}> Smoking? :{this.state.smoking ? 'Yes' : 'No'} </Text>
-                        <Text style={styles.modalText}> Date and Time : {this.state.date} </Text>
+                        <Text style={styles.modalText}> Number of Guests: </Text>
+                        <Text style={styles.modalText}> Smoking? : </Text>
+                        <Text style={styles.modalText}> Date and Time :  </Text>
                         <Button
                               onPress={() => {this.toggleModal();this.resetForm();}}
                               color='#512DA8'
