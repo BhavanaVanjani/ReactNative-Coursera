@@ -32,6 +32,13 @@ function RenderDish(props) {
         return false;
    };
 
+   const recognizeComment = ({ moveX,moveY,dx,dy }) => {
+     if(dx > 200)
+        return true;
+     else
+        return false;
+   }
+
    const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gestureState) => {
           return true;
@@ -58,6 +65,8 @@ function RenderDish(props) {
                 ],
                 { cancelable: false }
             )
+        else if(recognizeComment(gestureState))
+            props.handleModal()
 
         return true;
       }
@@ -134,7 +143,7 @@ class  Dishdetail extends Component {
       super(props);
       this.state = {
         favorites: [],
-        rating: null,
+        rating:5,
         author:'',
         comment:'',
         showModal:false,
@@ -151,7 +160,7 @@ class  Dishdetail extends Component {
 
   resetForm() {
     this.setState({
-        rating: null,
+        rating: 5,
         author: '',
         comment: ''
     });
@@ -196,6 +205,7 @@ class  Dishdetail extends Component {
                         imageSize={30}
                         showRating
                         onFinishRating={this.ratingCompleted}
+                        startingValue={5}
                          />
                       <View>
                         <Input
@@ -218,7 +228,7 @@ class  Dishdetail extends Component {
                           />
                       </View>
                       <View style={ styles.buttons }>
-                        <View style={{ margin: 10 }}>
+                          <View style={{margin: 10}}>
                             <Button
                             onPress={() => {
                               this.handleComment();
@@ -228,18 +238,17 @@ class  Dishdetail extends Component {
                             title="Submit"
                               />
                           </View>
-                        <View style={{ margin: 10 }}>
-                          <Button
-                              onPress={() => {
-                              this.toggleModal();
-                              this.resetForm();
-                              }}
-                              color="gray"
-                              title="Cancel"
-                          />
+                          <View style={{ margin: 10}}>
+                              <Button
+                                onPress={() => {
+                                this.toggleModal();
+                                this.resetForm();
+                                }}
+                                color="gray"
+                                title="Cancel"
+                            />
                         </View>
-                  </View>
-
+                    </View>
                 </View>
               </Modal>
           </ScrollView>
