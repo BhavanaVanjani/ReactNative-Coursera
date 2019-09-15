@@ -4,6 +4,7 @@ import { Card } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 import {Notifications} from 'expo' ;
 
 class Reservation extends Component {
@@ -35,6 +36,7 @@ class Reservation extends Component {
             {
                 text: 'OK',
                 onPress:() => {
+                  this.addReservationToCalendar(this.state.date);
                   this.presentLocalNotification(this.state.date);
                   this.resetForm();
                  }
@@ -43,6 +45,37 @@ class Reservation extends Component {
           { cancelable: false }
       )
   }
+
+  async obtainCalendarPermission() {
+    let permission = await Permissions.getAsync(Permissions.CALENDAR);
+    if (permission.status !== 'granted') {
+        permission = await Permissions.askAsync(Permissions.CALENDAR);
+        if(permission.status !== 'granted'){
+          Alert.alert('Permission not granted to access  the calendar');
+        }
+    }
+    return permission;
+  }
+
+
+    async addReservationToCalendar(date) {
+      await this.obtainCalendarPermission();
+      console.log(date);
+    try{
+        const details = {
+            title: 'Con Fusion Table Reservation' ,
+            startDate: new Date(Date.parse(date)),
+            endDate: new Date(Date.parse(date) + (2*60*60*1000)),
+            timeZone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong',
+        }
+        Calendar.createEventAsync(Calendar.DEFAULT, details);
+        Alert.alert('Reservation has been added to your Calendar');
+     }
+  catch (e){
+      Alert.alert('Error creating event to calendar',e.message);
+   }
+ }
 
   resetForm() {
     this.setState({
@@ -53,7 +86,7 @@ class Reservation extends Component {
   }
 
   async obtainNotificationPermission() {
-      let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS)
+      let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
       if (permission.status !== 'granted') {
           permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
           if(permission.status !== 'granted'){
@@ -62,6 +95,7 @@ class Reservation extends Component {
       }
       return permission;
   }
+
 
   async presentLocalNotification(date){
       await this.obtainNotificationPermission();
